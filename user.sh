@@ -16,7 +16,7 @@ npm install
 
 systemctl daemon-reload
 yum install mongodb-org-shell -y
-mongo --host mongodb.jakdevops.online </app/schema/user.js
+mongo --host MONGODB-SERVER-IPADDRESS </app/schema/user.js
 systemctl enable user
 systemctl restart user
 
