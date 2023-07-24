@@ -7,6 +7,8 @@ func_systemd() {
 }
 func_appreq()
 {
+  echo -e "\e[32m>>>>>>>>>>>>>>>>>>>>>>>>>>> create service file >>>>>>>>>>>>>>>>>>>>>>>\e[0m" | tee -a ${log}
+  cp ${component}.service /etc/systemd/system/${component}.service
     echo -e "\e[32m>>>>>>>>>>>>>>>>>>>>>>>>>>> create application user >>>>>>>>>>>>>>>>>>>>>>>\e[0m" | tee -a ${log}
     useradd roboshop &>>${log}
 
@@ -82,3 +84,20 @@ func_java() {
   echo -e "\e[32m>>>>>>>>>>>>>>>>>>>>>>>>>>> start the service  >>>>>>>>>>>>>>>>>>>>>>>\e[0m"
   func_systemd
 }
+
+func_python() {
+
+
+ echo -e "\e[32m>>>>>>>>>>>>>>>>>>>>>>>>>>> install python   >>>>>>>>>>>>>>>>>>>>>>>\e[0m"
+  yum install python36 gcc python3-devel -y &>>${log}
+
+  func_appreq
+
+  echo -e "\e[32m>>>>>>>>>>>>>>>>>>>>>>>>>>> python dependenceis  >>>>>>>>>>>>>>>>>>>>>>>\e[0m"
+  pip3.6 install -r requirements.txt &>>${log}
+
+  func_systemd
+
+}
+
+
