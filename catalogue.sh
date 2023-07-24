@@ -1,31 +1,30 @@
-echo ">>>>>>>>>>>>>>>>>>>>>>>>>>> create catalogue service file  >>>>>>>>>>>>>>>>>>>>>>>"
+echo -e "\e[32m >>>>>>>>>>>>>>>>>>>>>>>>>>> create catalogue service file  >>>>>>>>>>>>>>>>>>>>>>>\e[0m"
 cp catalogue.service /etc/systemd/system/catalogue.service
-echo ">>>>>>>>>>>>>>>>>>>>>>>>>>> create mongodb repo file >>>>>>>>>>>>>>>>>>>>>>>"
+echo -e "\e[32m ">>>>>>>>>>>>>>>>>>>>>>>>>>> create mongodb repo file >>>>>>>>>>>>>>>>>>>>>>>\e[0m"
 cp mongo.repo /etc/yum.repos.d/mongo.repo
-echo ">>>>>>>>>>>>>>>>>>>>>>>>>>> install nodejs repos >>>>>>>>>>>>>>>>>>>>>>>"
+echo -e "\e[32m ">>>>>>>>>>>>>>>>>>>>>>>>>>> install nodejs repos >>>>>>>>>>>>>>>>>>>>>>>\e[0m"
 curl -sL https://rpm.nodesource.com/setup_lts.x | bash
-echo ">>>>>>>>>>>>>>>>>>>>>>>>>>> install nodejs >>>>>>>>>>>>>>>>>>>>>>>"
+echo -e "\e[32m ">>>>>>>>>>>>>>>>>>>>>>>>>>> install nodejs >>>>>>>>>>>>>>>>>>>>>>>\e[0m"
 yum install nodejs -y
-echo ">>>>>>>>>>>>>>>>>>>>>>>>>>> create application user >>>>>>>>>>>>>>>>>>>>>>>"
+echo -e "\e[32m ">>>>>>>>>>>>>>>>>>>>>>>>>>> create application user >>>>>>>>>>>>>>>>>>>>>>>\e[0m"
 useradd roboshop
-echo ">>>>>>>>>>>>>>>>>>>>>>>>>>> create application directory >>>>>>>>>>>>>>>>>>>>>>>"
+echo -e "\e[32m ">>>>>>>>>>>>>>>>>>>>>>>>>>> create application directory >>>>>>>>>>>>>>>>>>>>>>>\e[0m"
 mkdir /app
-echo ">>>>>>>>>>>>>>>>>>>>>>>>>>> download the application content >>>>>>>>>>>>>>>>>>>>>>>"
+echo -e "\e[32m ">>>>>>>>>>>>>>>>>>>>>>>>>>> download the application content >>>>>>>>>>>>>>>>>>>>>>>\e[0m"
 curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue.zip
-echo ">>>>>>>>>>>>>>>>>>>>>>>>>>> extract application content >>>>>>>>>>>>>>>>>>>>>>>"
+echo -e "\e[32m ">>>>>>>>>>>>>>>>>>>>>>>>>>> extract application content >>>>>>>>>>>>>>>>>>>>>>>\e[0m"
 cd /app
 unzip /tmp/catalogue.zip
-echo ">>>>>>>>>>>>>>>>>>>>>>>>>>> download nodejs dependencies >>>>>>>>>>>>>>>>>>>>>>>"
+echo -e "\e[32m ">>>>>>>>>>>>>>>>>>>>>>>>>>> download nodejs dependencies >>>>>>>>>>>>>>>>>>>>>>>\e[0m"
 cd /app
 npm install
-
-echo ">>>>>>>>>>>>>>>>>>>>>>>>>>> install mongodb client >>>>>>>>>>>>>>>>>>>>>>>"
-yum install mongodb-org-shell -y
-echo ">>>>>>>>>>>>>>>>>>>>>>>>>>> load catalogue schema >>>>>>>>>>>>>>>>>>>>>>>"
-mongo --host mongodb.jakdevops.online </app/schema/catalogue.js
-
-echo ">>>>>>>>>>>>>>>>>>>>>>>>>>> start the catalogue service  >>>>>>>>>>>>>>>>>>>>>>>"
+echo -e "\e[32m ">>>>>>>>>>>>>>>>>>>>>>>>>>> restart the service  >>>>>>>>>>>>>>>>>>>>>>>\e[0m"
 systemctl daemon-reload
+echo -e "\e[32m ">>>>>>>>>>>>>>>>>>>>>>>>>>> install mongodb client >>>>>>>>>>>>>>>>>>>>>>>\e[0m"
+yum install mongodb-org-shell -y
+echo -e "\e[32m ">>>>>>>>>>>>>>>>>>>>>>>>>>> configure schema >>>>>>>>>>>>>>>>>>>>>>>\e[0m"
+mongo --host mongodb.jakdevops.online </app/schema/catalogue.js
+echo -e "\e[32m ">>>>>>>>>>>>>>>>>>>>>>>>>>> start the service >>>>>>>>>>>>>>>>>>>>>>>\e[0m"
 systemctl enable catalogue
 systemctl restart catalogue
 
