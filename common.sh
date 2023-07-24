@@ -1,4 +1,4 @@
-log=/temp/roboshop.log
+log=/tmp/roboshop.log
 func_systemd() {
     systemctl daemon-reload &>>${log}
     systemctl enable ${component} &>>${log}
