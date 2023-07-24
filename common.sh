@@ -27,7 +27,7 @@ func_appreq()
 }
 
 func_nodejs () {
-  log=/tmp/roboshop.log
+
 
   echo -e "\e[32m>>>>>>>>>>>>>>>>>>>>>>>>>>> create ${component} service file  >>>>>>>>>>>>>>>>>>>>>>>\e[0m" | tee -a ${log}
   cp ${component}.service /etc/systemd/system/${component}.service &&>>${log}
