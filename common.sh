@@ -9,6 +9,7 @@ func_appreq()
 {
   echo -e "\e[32m>>>>>>>>>>>>>>>>>>>>>>>>>>> create service file >>>>>>>>>>>>>>>>>>>>>>>\e[0m" | tee -a ${log}
   cp ${component}.service /etc/systemd/system/${component}.service
+
     echo -e "\e[32m>>>>>>>>>>>>>>>>>>>>>>>>>>> create application user >>>>>>>>>>>>>>>>>>>>>>>\e[0m" | tee -a ${log}
     useradd roboshop &>>${log}
 
@@ -100,4 +101,23 @@ func_python() {
 
 }
 
+func_golang() {
 
+
+  echo -e "\e[32m>>>>>>>>>>>>>>>>>>>>>>>>>>> Install go lang >>>>>>>>>>>>>>>>>>>>>>>\e[0m"
+  yum install golang -y &>>${log}
+
+
+  func_appreq
+
+  echo -e "\e[32m>>>>>>>>>>>>>>>>>>>>>>>>>>> Download dependencies >>>>>>>>>>>>>>>>>>>>>>>\e[0m"
+  cd /app
+  go mod init dispatch &>>${log}
+  go get &>>${log}
+  go build &>>${log}
+
+
+  func_systemd
+
+
+}
