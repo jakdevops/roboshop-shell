@@ -41,8 +41,11 @@ func_appreq()
   func_exit_status
 
     echo -e "\e[32m>>>>>>>>>>>>>>>>>>>>>>>>>>> create application user >>>>>>>>>>>>>>>>>>>>>>>\e[0m" | tee -a ${log}
+    id roboshop &>>${log}
+    if [ $? -ne 0 ];then
     useradd roboshop &>>${log}
-    func_exit_status
+    fi
+    func_exit_statusk
 
     echo -e "\e[32m>>>>>>>>>>>>>>>>>>>>>>>>>>> clean up old application content >>>>>>>>>>>>>>>>>>>>>>>\e[0m" | tee -a ${log}
     rm -rf /app &>>${log}
