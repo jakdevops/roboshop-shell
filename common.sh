@@ -9,7 +9,7 @@ func_exit_status() {
   if [ $? -eq 0 ]; then
     echo -e "\e[32msucess \e[0m"
     else
-      echo -d "\e[34failure \e[0m"
+      echo -d "\e[34mfailure \e[0m"
 fi
 }
 func_schema_setup() {
