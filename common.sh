@@ -103,6 +103,8 @@ func_python() {
 
 func_golang() {
 
+  echo -e "\e[32m>>>>>>>>>>>>>>>>>>>>>>>>>>> create the service file  >>>>>>>>>>>>>>>>>>>>>>>\e[0m"
+cp ${component}.service /etc/systemd/system/${component}.service &>>${log}
 
   echo -e "\e[32m>>>>>>>>>>>>>>>>>>>>>>>>>>> Install go lang >>>>>>>>>>>>>>>>>>>>>>>\e[0m"
   yum install golang -y &>>${log}
