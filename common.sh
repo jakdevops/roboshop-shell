@@ -5,6 +5,23 @@ func_systemd() {
     systemctl restart ${component} &>>${log}
 
 }
+func_schema_setup() {
+    if [ "${schema_type}" == "mongodb" ]; then
+    echo -e "\e[32m>>>>>>>>>>>>>>>>>>>>>>>>>>> install mongodb client >>>>>>>>>>>>>>>>>>>>>>>\e[0m" | tee -a ${log}
+    yum install mongodb-org-shell -y &>>${log}
+
+    echo -e "\e[32m>>>>>>>>>>>>>>>>>>>>>>>>>>> configure schema >>>>>>>>>>>>>>>>>>>>>>>\e[0m" | tee -a ${log}
+    mongo --host mongodb.jakdevops.online </app/schema/${component}.js &>>${log}
+    fi
+
+    if [ "${schema_type}" == "mysql" ]; then
+      echo -e "\e[32m>>>>>>>>>>>>>>>>>>>>>>>>>>> install my sql client  >>>>>>>>>>>>>>>>>>>>>>>\e[0m"
+        yum install mysql -y &>>${log}
+
+        echo -e "\e[32m>>>>>>>>>>>>>>>>>>>>>>>>>>> load schema  >>>>>>>>>>>>>>>>>>>>>>>\e[0m"
+        mysql -h mysql.jakdevops.online -uroot -pRoboShop@1 < /app/schema/${component}.sql &>>${log}
+
+}
 func_appreq()
 {
   echo -e "\e[32m>>>>>>>>>>>>>>>>>>>>>>>>>>> create service file >>>>>>>>>>>>>>>>>>>>>>>\e[0m" | tee -a ${log}
@@ -50,12 +67,7 @@ func_nodejs () {
   npm install &>>${log}
 
 
-
-  echo -e "\e[32m>>>>>>>>>>>>>>>>>>>>>>>>>>> install mongodb client >>>>>>>>>>>>>>>>>>>>>>>\e[0m" | tee -a ${log}
-  yum install mongodb-org-shell -y &>>${log}
-
-  echo -e "\e[32m>>>>>>>>>>>>>>>>>>>>>>>>>>> configure schema >>>>>>>>>>>>>>>>>>>>>>>\e[0m" | tee -a ${log}
-  mongo --host mongodb.jakdevops.online </app/schema/${component}.js &>>${log}
+func_schema_setup
 
   echo -e "\e[32m>>>>>>>>>>>>>>>>>>>>>>>>>>> start the user service  >>>>>>>>>>>>>>>>>>>>>>>\e[0m" | tee -a ${log}
   func_systemd
@@ -76,11 +88,7 @@ func_java() {
   mvn clean package &>>${log}
   mv target/${component}-1.0.jar ${component}.jar &>>${log}
 
-  echo -e "\e[32m>>>>>>>>>>>>>>>>>>>>>>>>>>> install my sql client  >>>>>>>>>>>>>>>>>>>>>>>\e[0m"
-  yum install mysql -y &>>${log}
 
-  echo -e "\e[32m>>>>>>>>>>>>>>>>>>>>>>>>>>> load schema  >>>>>>>>>>>>>>>>>>>>>>>\e[0m"
-  mysql -h mysql.jakdevops.online -uroot -pRoboShop@1 < /app/schema/${component}.sql &>>${log}
 
   echo -e "\e[32m>>>>>>>>>>>>>>>>>>>>>>>>>>> start the service  >>>>>>>>>>>>>>>>>>>>>>>\e[0m"
   func_systemd
@@ -109,7 +117,6 @@ cp ${component}.service /etc/systemd/system/${component}.service &>>${log}
   echo -e "\e[32m>>>>>>>>>>>>>>>>>>>>>>>>>>> Install go lang >>>>>>>>>>>>>>>>>>>>>>>\e[0m"
   yum install golang -y &>>${log}
 
-
   func_appreq
 
   echo -e "\e[32m>>>>>>>>>>>>>>>>>>>>>>>>>>> Download dependencies >>>>>>>>>>>>>>>>>>>>>>>\e[0m"
@@ -118,8 +125,7 @@ cp ${component}.service /etc/systemd/system/${component}.service &>>${log}
   go get &>>${log}
   go build &>>${log}
 
-
   func_systemd
-
-
 }
+
+
