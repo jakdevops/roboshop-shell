@@ -13,7 +13,7 @@ func_schema_setup() {
     echo -e "\e[32m>>>>>>>>>>>>>>>>>>>>>>>>>>> configure schema >>>>>>>>>>>>>>>>>>>>>>>\e[0m" | tee -a ${log}
     mongo --host mongodb.jakdevops.online </app/schema/${component}.js &>>${log}
     fi
-}
+
     if [ "${schema_type}" == "mysql" ]; then
       echo -e "\e[32m>>>>>>>>>>>>>>>>>>>>>>>>>>> install my sql client  >>>>>>>>>>>>>>>>>>>>>>>\e[0m"
         yum install mysql -y &>>${log}
