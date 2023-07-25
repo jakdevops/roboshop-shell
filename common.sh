@@ -45,7 +45,7 @@ func_appreq()
     if [ $? -ne 0 ];then
     useradd roboshop &>>${log}
     fi
-    func_exit_statusk
+    func_exit_status
 
     echo -e "\e[32m>>>>>>>>>>>>>>>>>>>>>>>>>>> clean up old application content >>>>>>>>>>>>>>>>>>>>>>>\e[0m" | tee -a ${log}
     rm -rf /app &>>${log}
