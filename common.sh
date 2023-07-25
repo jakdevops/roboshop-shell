@@ -10,6 +10,7 @@ func_exit_status() {
     echo -e "\e[32msucess \e[0m"
     else
       echo -d "\e[34failure \e[0m"
+fi
 }
 func_schema_setup() {
     if [ "${schema_type}" == "mongodb" ]; then
